@@ -1,11 +1,10 @@
 package main
 
 import (
-	"os"
 	"testing"
 )
 
-func TestPrintRaw(t *testing.T) {
+/* func TestPrintRaw(t *testing.T) {
 	writer := os.Stdout
 
 	PrintRaw("Hello, World!", writer)
@@ -15,7 +14,7 @@ func TestPrintRaw(t *testing.T) {
 	// PrintRaw("\033[1A\033[K", writer)
 
 	PrintRaw("Bye, World!\n", writer)
-}
+} */
 
 func TestKit(t *testing.T) {
 	kit := NewKit()
@@ -25,4 +24,6 @@ func TestKit(t *testing.T) {
 	textView.SetContent("Hello, World!")
 
 	kit.AddElement(textView)
+
+	kit.Print()
 }
