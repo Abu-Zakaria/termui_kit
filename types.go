@@ -21,9 +21,3 @@ type TextView struct {
 
 	SingleLine bool
 }
-
-type Colorable interface {
-	SetColor(color string) error
-
-	GetColor() string
-}
