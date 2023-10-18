@@ -17,4 +17,13 @@ type Element interface {
 
 type TextView struct {
 	content string
+	color   string
+
+	SingleLine bool
+}
+
+type Colorable interface {
+	SetColor(color string) error
+
+	GetColor() string
 }
