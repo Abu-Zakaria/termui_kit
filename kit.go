@@ -11,17 +11,16 @@ var (
 
 func NewKit() *Kit {
 	return &Kit{
-		Elements: []Element{},
-		Writer:   WRITER,
+		Writer: WRITER,
 	}
 }
 
-func (kit *Kit) AddElement(element Element) {
-	kit.Elements = append(kit.Elements, element)
+func (kit *Kit) AddRow(row *Row) {
+	kit.Rows = append(kit.Rows, row)
 }
 
 func (kit *Kit) Print() {
-	for _, element := range kit.Elements {
-		element.Print(kit.Writer)
+	for _, row := range kit.Rows {
+		row.Print(kit.Writer)
 	}
 }

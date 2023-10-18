@@ -1,30 +1,40 @@
 package main
 
-import "io"
+import (
+	"errors"
+	"io"
+)
 
-func (tv *TextView) SetContent(content string) {
-	tv.content = content
-}
-
-func (tv *TextView) GetContent() string {
-	return tv.content
+func NewTextView() *TextView {
+	return &TextView{}
 }
 
 func (tv *TextView) Print(w io.Writer) error {
-	wrapped_content, err := WrapContentWithColor(tv.content, tv.color)
+	viewContents, err := tv.GetViewContent()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	if !tv.SingleLine {
-		wrapped_content += "\n"
+	if len(viewContents) == 0 {
+		return errors.New(EMPTY_CONTENT_ERROR)
 	}
 
-	PrintRaw(wrapped_content, w)
+	content := viewContents[0]
+
+	if tv.MultiLine {
+		content += "\n"
+	}
+
+	PrintRaw(content, w)
+
 	return nil
 }
 
-func (tv *TextView) SetColor(color string) error {
-	tv.color = color
-	return nil
+func (tv *TextView) GetViewContent() ([]string, error) {
+	wrapped_content, err := WrapContentWithColor(tv.Content, tv.Color)
+	if err != nil {
+		return []string{""}, err
+	}
+
+	return []string{wrapped_content}, nil
 }

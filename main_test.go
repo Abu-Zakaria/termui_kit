@@ -17,32 +17,41 @@ import (
 } */
 
 func TestKit(t *testing.T) {
-	kit := NewKit()
+	kit, row := NewKit(), NewRow()
 
-	textView := &TextView{
-		SingleLine: true,
-	}
+	kit.AddRow(row)
 
-	textView.SetContent("This color is red.")
-	textView.SetColor("red")
+	box1 := NewBox()
+	box2 := NewBox()
+	box3 := NewBox()
 
-	kit.AddElement(textView)
+	box1.Width, box2.Width, box3.Width = 50, 50, 50
+	box1.BackgroundColor, box2.BackgroundColor, box3.BackgroundColor = "red", "green", "blue"
+	textView := NewTextView()
 
-	textView2 := &TextView{
-		SingleLine: true,
-	}
+	textView.Content = "Hello World!"
+	textView.Color = "green"
+	textView.MultiLine = false
 
-	textView2.SetContent("This color is blue.")
-	textView2.SetColor("blue")
+	box1.AddView(textView)
 
-	kit.AddElement(textView2)
+	tv2 := NewTextView()
 
-	textView3 := &TextView{}
+	tv2.Content = "This is second sentence."
+	tv2.Color = "blue"
 
-	textView3.SetContent("This color is green.")
-	textView3.SetColor("green")
+	box2.AddView(tv2)
 
-	kit.AddElement(textView3)
+	tv3 := NewTextView()
+
+	tv3.Content = "This is third sentence."
+	tv3.Color = "red"
+
+	box3.AddView(tv3)
+
+	row.Add(box1)
+	row.Add(box2)
+	row.Add(box3)
 
 	kit.Print()
 }

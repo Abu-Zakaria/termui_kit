@@ -3,21 +3,31 @@ package main
 import "io"
 
 type Kit struct {
-	Elements []Element
-	Writer   io.Writer
+	Rows   []*Row
+	Writer io.Writer
 }
 
-type Element interface {
-	SetContent(content string)
+type Row struct {
+	Boxes           []*Box
+	BackgroundColor string
+	BorderColor     string
+}
 
-	GetContent() string
-
-	Print(w io.Writer) error
+type Box struct {
+	Lines           []string
+	Width           int
+	Height          int
+	BackgroundColor string
+	BorderColor     string
 }
 
 type TextView struct {
-	content string
-	color   string
+	Content string
+	Color   string
 
-	SingleLine bool
+	MultiLine bool
+}
+
+type ViewContentGenerator interface {
+	GetViewContent() ([]string, error)
 }
