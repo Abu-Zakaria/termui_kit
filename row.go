@@ -18,18 +18,18 @@ func (r *Row) Print(w io.Writer) {
 	maxHeight := 0
 
 	for _, box := range r.Boxes {
-		maxHeight = int(math.Max(float64(maxHeight), float64(box.Height)))
+		maxHeight = int(math.Max(float64(maxHeight), float64(box.GetRealHeight())))
 	}
 
 	for {
 		for _, box := range r.Boxes {
-			if box.Height < maxHeight && cursorPositionVertical >= box.Height {
+			if box.GetRealHeight() < maxHeight && cursorPositionVertical >= box.GetRealHeight() {
 				fillUpRowText := fillUpRow(*box)
 
 				PrintRaw(fillUpRowText, w)
 			}
 
-			err := box.PrintLineNumber(cursorPositionVertical, w)
+			err := box.PrintLine(cursorPositionVertical, w)
 			if err != nil && err.Error() == END_OF_BOX_REACHED_ERROR && !slices.Contains(fullyPrintedBoxes, box) {
 				endOfBoxReachedCounter++
 				fullyPrintedBoxes = append(fullyPrintedBoxes, box)
@@ -52,7 +52,7 @@ func (r *Row) Add(box *Box) {
 func fillUpRow(box Box) string {
 	var emptyContent string
 
-	for i := 0; i < box.Width; i++ {
+	for i := 0; i < box.GetRealWidth(); i++ {
 		emptyContent += " "
 	}
 

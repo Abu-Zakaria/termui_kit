@@ -27,15 +27,25 @@ func TestKit(t *testing.T) {
 	box4 := NewBox()
 	box5 := NewBox()
 
-	box1.Width, box2.Width, box3.Width, box4.Width, box5.Width = 40, 60, 30, 80, 35
+	box1.Width, box2.Width, box3.Width, box4.Width, box5.Width = 20, 30, 25, 40, 25
 	box1.Height, box2.Height, box3.Height, box4.Height = 3, 7, 2, 4
 	box1.BackgroundColor, box2.BackgroundColor, box3.BackgroundColor, box4.BackgroundColor, box5.BackgroundColor = "red", "green", "blue", "magenta", "blue"
+	box1.Padding[0] = 2
+	box1.Padding[1] = 3
+	box1.Padding[2] = 4
+	box1.Padding[3] = 8
+
+	box3.Padding[0] = 10
+	box3.Padding[1] = 3
+	box3.Padding[2] = 20
+	box3.Padding[3] = 15
+
+	box4.Padding[0] = 2
 
 	textView := NewTextView()
 
 	textView.Content = "Hello World!"
 	textView.Color = "green"
-	textView.MultiLine = false
 
 	box1.AddView(textView)
 

@@ -19,6 +19,7 @@ type Box struct {
 	Height          int
 	BackgroundColor string
 	BorderColor     string
+	Padding         []int
 }
 
 type Line struct {
@@ -27,15 +28,15 @@ type Line struct {
 }
 
 type TextView struct {
-	Content string
-	Color   string
-
-	MultiLine bool
+	Content             string
+	Color               string
+	MultiLine           bool
+	UseParentBackground bool
 }
 
 // 1st return: slice of the lines of the content after adding color
 // 2nd return: slice of each line's content size, without counting the color codes
 // 3rd return: error if fail to add color to the content
 type ViewContentGenerator interface {
-	GetViewContent() ([]string, []int, error)
+	GetViewContent(box Box) ([]string, []int, error)
 }
