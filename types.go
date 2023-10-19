@@ -14,11 +14,16 @@ type Row struct {
 }
 
 type Box struct {
-	Lines           []string
+	Lines           []Line
 	Width           int
 	Height          int
 	BackgroundColor string
 	BorderColor     string
+}
+
+type Line struct {
+	Content string
+	Size    int
 }
 
 type TextView struct {
@@ -28,6 +33,9 @@ type TextView struct {
 	MultiLine bool
 }
 
+// 1st return: slice of the lines of the content after adding color
+// 2nd return: slice of each line's content size, without counting the color codes
+// 3rd return: error if fail to add color to the content
 type ViewContentGenerator interface {
-	GetViewContent() ([]string, error)
+	GetViewContent() ([]string, []int, error)
 }

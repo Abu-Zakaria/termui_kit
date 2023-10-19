@@ -24,9 +24,13 @@ func TestKit(t *testing.T) {
 	box1 := NewBox()
 	box2 := NewBox()
 	box3 := NewBox()
+	box4 := NewBox()
+	box5 := NewBox()
 
-	box1.Width, box2.Width, box3.Width = 50, 50, 50
-	box1.BackgroundColor, box2.BackgroundColor, box3.BackgroundColor = "red", "green", "blue"
+	box1.Width, box2.Width, box3.Width, box4.Width, box5.Width = 40, 60, 30, 80, 35
+	box1.Height, box2.Height, box3.Height, box4.Height = 3, 7, 2, 4
+	box1.BackgroundColor, box2.BackgroundColor, box3.BackgroundColor, box4.BackgroundColor, box5.BackgroundColor = "red", "green", "blue", "magenta", "blue"
+
 	textView := NewTextView()
 
 	textView.Content = "Hello World!"
@@ -49,9 +53,25 @@ func TestKit(t *testing.T) {
 
 	box3.AddView(tv3)
 
+	tv4 := NewTextView()
+
+	tv4.Content = "This is fourth sentence."
+	tv4.Color = "red"
+
+	box4.AddView(tv4)
+
+	tv5 := NewTextView()
+
+	tv5.Content = "This is fifth sentence."
+	tv5.Color = "green"
+
+	box5.AddView(tv5)
+
 	row.Add(box1)
 	row.Add(box2)
 	row.Add(box3)
+	row.Add(box4)
+	row.Add(box5)
 
 	kit.Print()
 }

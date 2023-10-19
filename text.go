@@ -10,7 +10,7 @@ func NewTextView() *TextView {
 }
 
 func (tv *TextView) Print(w io.Writer) error {
-	viewContents, err := tv.GetViewContent()
+	viewContents, _, err := tv.GetViewContent()
 	if err != nil {
 		return err
 	}
@@ -30,11 +30,11 @@ func (tv *TextView) Print(w io.Writer) error {
 	return nil
 }
 
-func (tv *TextView) GetViewContent() ([]string, error) {
+func (tv *TextView) GetViewContent() ([]string, []int, error) {
 	wrapped_content, err := WrapContentWithColor(tv.Content, tv.Color)
 	if err != nil {
-		return []string{""}, err
+		return []string{""}, []int{0}, err
 	}
 
-	return []string{wrapped_content}, nil
+	return []string{wrapped_content}, []int{len(tv.Content)}, nil
 }

@@ -6,29 +6,49 @@ import (
 )
 
 func NewBox() *Box {
-	return &Box{}
+	return &Box{
+		Width:  1,
+		Height: 1,
+	}
 }
 
 func (b *Box) PrintLineNumber(lineNumber int, w io.Writer) (err error) {
-	if len(b.Lines) > lineNumber {
-		line := b.Lines[lineNumber]
-
-		if len(line) < b.Width {
-			for i := len(line); i < b.Width; i++ {
-				line += " "
-			}
+	if b.Height > lineNumber {
+		line := Line{
+			Content: "",
+			Size:    0,
 		}
 
-		if b.BackgroundColor != "" {
-			line, err = WrapContentWithBackgroundColor(line, b.BackgroundColor)
+		// if no more lines are available and height is greater than line number, fill up the empty line
+		if len(b.Lines) <= lineNumber && lineNumber < b.Height {
+			var text string
+			text, err = fillUpEmptyLine(b)
+
+			line.Content = text
+			line.Size = len(text)
+
+			if err != nil {
+				return err
+			}
+		} else {
+			line = b.Lines[lineNumber]
+
+			if line.Size < b.Width {
+				for i := line.Size; i < b.Width; i++ {
+					line.Content += " "
+				}
+			}
+
+			err = addBackgroundColor(*b, &line.Content)
 			if err != nil {
 				return err
 			}
 		}
 
-		line = AddResetCode(line)
+		line.Content = AddResetCode(line.Content)
 
-		PrintRaw(line, w)
+		PrintRaw(line.Content, w)
+
 		return nil
 	} else {
 		return errors.New(END_OF_BOX_REACHED_ERROR)
@@ -36,12 +56,42 @@ func (b *Box) PrintLineNumber(lineNumber int, w io.Writer) (err error) {
 }
 
 func (b *Box) AddView(viewContentGenerator ViewContentGenerator) error {
-	content, err := viewContentGenerator.GetViewContent()
+	lines, sizes, err := viewContentGenerator.GetViewContent()
 	if err != nil {
 		return err
 	}
+	for i, l := range lines {
+		line := Line{
+			Content: l,
+			Size:    sizes[i],
+		}
+		b.Lines = append(b.Lines, line)
+	}
 
-	b.Lines = append(b.Lines, content...)
+	return nil
+}
 
+func fillUpEmptyLine(box *Box) (string, error) {
+	var newLine string
+	for i := 0; i < box.Width; i++ {
+		newLine += " "
+	}
+
+	err := addBackgroundColor(*box, &newLine)
+	if err != nil {
+		return "", err
+	}
+
+	return newLine, nil
+}
+
+func addBackgroundColor(box Box, line *string) error {
+	if box.BackgroundColor != "" {
+		var err error
+		*line, err = WrapContentWithBackgroundColor(*line, box.BackgroundColor)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }

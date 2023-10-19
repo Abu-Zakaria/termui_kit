@@ -6,15 +6,17 @@ import (
 
 var (
 	colors = map[string]string{
-		"red":   "\033[31m",
-		"blue":  "\033[34m",
-		"green": "\033[32m",
+		"red":     "\033[31m",
+		"blue":    "\033[34m",
+		"green":   "\033[32m",
+		"magenta": "\033[95m",
 	}
 
 	backgroundColors = map[string]string{
-		"red":   "\033[41m",
-		"green": "\033[42m",
-		"blue":  "\033[44m",
+		"red":     "\033[41m",
+		"green":   "\033[42m",
+		"blue":    "\033[44m",
+		"magenta": "\033[105m",
 	}
 
 	resetCode = "\033[0m"
